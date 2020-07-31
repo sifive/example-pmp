@@ -54,7 +54,7 @@ int main()
 		.W = 0,
 		.R = 1,
 	};
-	if (metal_pmp_set_region(0, config, protected_addr) != 0);
+	if (metal_pmp_set_region(0, config, protected_addr) != 0) {
 		printf("Failed to configure PMP 0\n");
 		return 5;
 	}
