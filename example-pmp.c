@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 #include <metal/cpu.h>
+#include <metal/interrupt_handlers.h>
 #include <metal/pmp.h>
 #include <metal/riscv.h>
 
@@ -12,10 +13,8 @@
 #define PROTECTED_ARRAY_LENGTH 32
 volatile uint32_t protected_global[PROTECTED_ARRAY_LENGTH] __attribute__((aligned(NAPOT_SIZE)));
 
-void metal_riscv_cpu_intc_store_access_fault_handler()
+void metal_exception_store_amo_access_fault_handler(struct metal_cpu cpu, int ecode)
 {
-	struct metal_cpu cpu = metal_cpu_get(metal_cpu_get_current_hartid());
-
 	/* Get faulting instruction and instruction length */
 	unsigned long epc = metal_cpu_get_exception_pc(cpu);
 	int inst_len = metal_cpu_get_instruction_length(cpu, epc);
